@@ -27,6 +27,22 @@ app.get('/api/students', (request, response) =>{
   response.status(200).send(studentList);
 });
 
+app.post('/api/student/create', (request, response) => {
+  const newStudent = {
+    firstName : request.body.firstName,
+    lastName : request.body.lastName,
+    rollNo : request.body.rollNo,
+    age : request.body.age
+  };
+
+  studentList.push(newStudent);
+
+  const data = {
+    message : "Student has been created successfully"
+  }
+  response.status(200).send(data);
+});
+
 const port = process.env.port || 8080;
 
 http.listen(port, () => {
