@@ -2,14 +2,30 @@ const express = require('express');
 const app = express();
 const http = require('http').createServer(app);
 const bodyParser = require('body-parser');
+const mysql = require('mysql');
 
 app.use(bodyParser.json());
 app.use(express.json());
 
+const connection = mysql.createConnection({
+  host : 'localhost',
+  user : 'root',
+  password : ''
+});
+
+connection.connect((error) => {
+  if(error){
+    console.log("Error in connecting SQL Server", error);
+    return;
+  }
+
+  console.log('Successfully connected the SQL Server')
+});
+
 const studentList = [{
   firstName : "Yuvaraj",
   lastName : "A",
-  rollNo : 4056,
+  rollNo : 4578,
   age : 28,
   id : 1
 },{
