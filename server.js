@@ -103,10 +103,51 @@ app.get('/api/students', (request, response) =>{
 });
 
 app.put('/api/student/update/:id', (request, response) => {
+  const id = request.params.id;
+  const firstName = request.body.first_name;
+  if(!firstName){
+    response.status(400).send("Invalid or Missing First Name");
+    return;
+  }
+
+  const lastName = request.body.last_name;
+  if(!lastName){
+    response.status(400).send("Invalid or Missing Last Name");
+    return;
+  }
+
+  const age = request.body.age;
+  if(!age){
+    response.status(400).send("Invalid or Missing Age");
+    return;
+  }
+
+  const query = `UPDATE ${TABLE_NAME} SET first_name='${firstName}', last_name='${lastName}', age=${age} WHERE id=${id}`;
+
+  connection.query(query, (error, resulk) => {
+    if(error){
+      response.status(500).send(error);
+      return;
+    }
+
+    response.status(200).send("User profile has been updated successfully");
+  })
 
 });
 
 app.delete('/api/student/delete/:id', (request, response) => {
+  const id = request.params.id;
+
+  const query = `DELETE FROM ${TABLE_NAME} WHERE id=${id}`;
+
+  connection.query(query, (error, resulk) => {
+    if(error){
+      response.status(500).send(error);
+      return;
+    }
+
+    response.status(200).send("User profile has been deleted successfully");
+  })
 
 })
 
